@@ -7,6 +7,7 @@ import {
   UserCircle,
   Blocks,
   LogOut,
+  HomeIcon,
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -14,10 +15,12 @@ const Sidebar = () => {
 
   const menuItems = [
     { path: '/', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/Utilisateur', label: 'Utilisateur', icon: HomeIcon },
     { path: '/etudiant', label: 'Étudiant', icon: Users },
     { path: '/universite', label: 'Université', icon: Building2 },
-    { path: '/president', label: 'Président', icon: UserCircle },
-    { path: '/blockchain', label: 'Blockchain', icon: Blocks },
+    { path: '/Diplome', label: 'Diplome', icon: Building2 },
+
+    
   ];
 
   return (

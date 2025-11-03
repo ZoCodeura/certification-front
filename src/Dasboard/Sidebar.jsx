@@ -4,8 +4,6 @@ import {
   LayoutDashboard,
   Users,
   Building2,
-  UserCircle,
-  Blocks,
   LogOut,
   HomeIcon,
 } from 'lucide-react';
@@ -19,12 +17,10 @@ const Sidebar = () => {
     { path: '/etudiant', label: 'Étudiant', icon: Users },
     { path: '/universite', label: 'Université', icon: Building2 },
     { path: '/Diplome', label: 'Diplome', icon: Building2 },
-
-    
   ];
 
   return (
-    <div className="w-64 bg-gradient-to-b from-blue-900 to-blue-800 min-h-screen text-white flex flex-col">
+    <div className="fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white flex flex-col z-50">
       {/* Logo / Header */}
       <div className="p-6 border-b border-blue-700">
         <h1 className="text-2xl font-bold">PharmaCare</h1>
@@ -32,7 +28,7 @@ const Sidebar = () => {
       </div>
 
       {/* Menu principal */}
-      <nav className="flex-1 p-4">
+      <nav className="flex-1 overflow-y-auto p-4">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
@@ -59,6 +55,7 @@ const Sidebar = () => {
           <span>Déconnexion</span>
         </button>
       </div>
+      
     </div>
   );
 };

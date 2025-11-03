@@ -52,7 +52,7 @@ const DemandeDiplome = () => {
       data.append('etablissement', formData.etablissement);
       data.append('recu', formData.recu);
 
-      const response = await axios.post('http://localhost:5000/api/demandes', data, {
+      const response = await axios.post('http://localhost:5000/appi/demandes', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

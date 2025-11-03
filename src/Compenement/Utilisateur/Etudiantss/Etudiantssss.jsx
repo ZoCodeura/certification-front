@@ -14,8 +14,6 @@ const Etudiantssss = () => {
     diplome: "",
     mention: "",
     cin: "",
-    email: "",
-    password: "",
     etablissement: ""
   });
 
@@ -52,8 +50,6 @@ const Etudiantssss = () => {
         diplome: "",
         mention: "",
         cin: "",
-        email: "",
-        password: "",
         etablissement: ""
       });
       fetchEtudiants();
@@ -80,7 +76,8 @@ const Etudiantssss = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="ml-64 mt-16 flex flex-col  h-[calc(100vh-6rem)] overflow-hidden">
+      <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
       {/* HEADER */}
       <div className="flex justify-between items-center mb-8">
         <div>
@@ -194,27 +191,9 @@ const Etudiantssss = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                  />
-                </div>
+                
 
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">Mot de passe</label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                  />
-                </div>
+                
 
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-gray-700">Établissement</label>
@@ -255,7 +234,7 @@ const Etudiantssss = () => {
 
       {/* TABLEAU */}
       <div className="bg-white rounded-xl shadow-md overflow-hidden mt-6">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-w-full ">
           <table className="w-full">
             <thead className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
               <tr>
@@ -290,7 +269,11 @@ const Etudiantssss = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div>   
+    </div>
+    <footer className="bg-white text-center py-4 text-sm text-gray-500 border-t">
+          © {new Date().getFullYear()} Office National — Tous droits réservés.
+        </footer>
     </div>
   );
 };

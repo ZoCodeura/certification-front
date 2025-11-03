@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, CheckCircle, XCircle, Ban, Search, Filter, Eye, Calendar, User, GraduationCap, Building2, RefreshCw, AlertCircle } from 'lucide-react';
+import { Shield, CheckCircle, XCircle, Ban, Search, Filter, Eye, Calendar, User, GraduationCap,  RefreshCw, AlertCircle, LogOut } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+
 
 const PresidentInterface = () => {
+  const navigate = useNavigate();
   const [demandes, setDemandes] = useState([]);
   const [filteredDemandes, setFilteredDemandes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,6 +15,9 @@ const PresidentInterface = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [showUserBox, setShowUserBox] = useState(false);
+  const [president, setPresident] = useState({ nom: '', email: '' });;
+
 
   useEffect(() => {
     fetchDemandes();
@@ -40,7 +46,7 @@ const PresidentInterface = () => {
     setIsLoading(true);
     setError('');
     try {
-      const response = await fetch('http://localhost:5000/api/demandes');
+      const response = await fetch('http://localhost:5000/appi/demandes');
       const data = await response.json();
       setDemandes(data.data || []);
       setFilteredDemandes(data.data || []);
@@ -51,12 +57,13 @@ const PresidentInterface = () => {
       setIsLoading(false);
     }
   };
+  
 
   const handleUpdateStatut = async (id, nouveauStatut) => {
     setActionLoading(true);
     setError('');
     try {
-      const response = await fetch(`http://localhost:5000/api/demandes/${id}`, {
+      const response = await fetch(`http://localhost:5000/appi/demandes/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -80,6 +87,25 @@ const PresidentInterface = () => {
       setActionLoading(false);
     }
   };
+  useEffect(() => {
+    fetchDemandes();
+    fetchPresident(); // Récupérer les infos du Président
+  }, []);
+
+  const fetchPresident = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/appi/president');
+      const data = await response.json();
+      setPresident(data);
+    } catch (err) {
+      console.error('Erreur de récupération du président:', err);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   const getStatutBadge = (statut) => {
     const styles = {
@@ -102,14 +128,47 @@ const PresidentInterface = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+          <div className="flex items-center gap-4 mb-6 justify-between">
+           <div className='flex'>
+             <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
               <Shield className="text-white" size={32} />
             </div>
             <div>
               <h1 className="text-4xl font-bold text-gray-800">Espace Président</h1>
               <p className="text-gray-600">Validation et gestion des demandes de diplômes</p>
             </div>
+           </div>
+
+            {/* Icône utilisateur */}
+          <div className="relative">
+            <button
+              onClick={() => setShowUserBox(!showUserBox)}
+              className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white shadow-lg hover:bg-purple-700 transition-colors"
+            >
+              <User size={24} />
+            </button>
+
+            {showUserBox && (
+              <div className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-lg border border-gray-200 p-4 z-50">
+                <div className="flex flex-col items-center gap-2 mb-4">
+                  <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-2xl font-bold">
+                    {president.nom[0]}
+                  </div>
+                  <p className="font-semibold text-gray-800">{president.nom}</p>
+                  <p className="text-gray-500 text-sm">{president.email}</p>
+                </div>
+                <button
+                  onClick={ handleLogout }
+                  className="w-full py-2 px-4 bg-red-500 text-white rounded-xl flex items-center justify-center gap-2 hover:bg-red-600 transition-all"
+                
+                >
+
+                  <LogOut size={18} />
+                  Déconnecter
+                </button>
+              </div>
+            )}
+          </div>
           </div>
 
           {successMessage && (
@@ -293,7 +352,7 @@ const PresidentInterface = () => {
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-2xl font-bold text-white">Gestion de la demande</h2>
-                    <p className="text-purple-100 text-sm mt-1">Demande #{selectedDemande.id}</p>
+                    <p className="text-purple-100 text-sm mt-1">Demande #{selectedDemande.nom}</p>
                   </div>
                   <button 
                     onClick={() => {
